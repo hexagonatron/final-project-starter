@@ -55,9 +55,6 @@ function App() {
             <Route exact path="/signup">
               <Signup />
             </Route>
-            <Route exact path="/date">
-              <DateGrid/>
-            </Route>
           </div>
           <Footer />
         </div>
