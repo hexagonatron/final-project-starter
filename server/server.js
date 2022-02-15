@@ -1,7 +1,7 @@
 const express = require('express');
 const { ApolloServer } = require('apollo-server-express');
 const path = require('path');
-require('dotenv').config()
+require('dotenv').config({path: path.join(__dirname, '.env' )});
 
 const { typeDefs, resolvers } = require('./schemas');
 const db = require('./config/connection');
