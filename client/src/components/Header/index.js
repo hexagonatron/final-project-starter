@@ -1,12 +1,13 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-import Auth from '../../utils/auth';
+import { useAuthContext } from '../../utils/AuthContext';
 
 const Header = () => {
-  const logout = (event) => {
+  const {loggedIn, logout, userData } = useAuthContext();
+  const handleLogout = (event) => {
     event.preventDefault();
-    Auth.logout();
+    logout('/');
   };
   return (
     <header className="bg-primary text-light mb-4 py-3 flex-row align-center">
@@ -18,10 +19,10 @@ const Header = () => {
           <p className="m-0">This is a sub-title</p>
         </div>
         <div>
-          {Auth.loggedIn() ? (
+          {loggedIn ? (
             <>
-              <span>Hey there, {Auth.getProfile().data.username}!</span>
-              <button className="btn btn-lg btn-light m-2" onClick={logout}>
+              <span>Hey there, {userData?.data?.username || ""}!</span>
+              <button className="btn btn-lg btn-light m-2" onClick={handleLogout}>
                 Logout
               </button>
             </>

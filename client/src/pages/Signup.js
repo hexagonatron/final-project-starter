@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import { useMutation } from '@apollo/client';
 import { ADD_USER } from '../utils/mutations';
 
-import Auth from '../utils/auth';
+import { useAuthContext } from '../utils/AuthContext';
 
 const Signup = () => {
   const [formState, setFormState] = useState({
@@ -13,6 +13,8 @@ const Signup = () => {
     password: '',
   });
   const [addUser, { error, data }] = useMutation(ADD_USER);
+
+  const {login} = useAuthContext();
 
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -32,7 +34,7 @@ const Signup = () => {
         variables: { ...formState },
       });
 
-      Auth.login(data.addUser.token);
+      login(data.addUser.token, '/');
     } catch (e) {
       console.error(e);
     }
