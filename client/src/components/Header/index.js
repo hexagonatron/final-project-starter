@@ -1,13 +1,16 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 import { useAuthContext } from '../../utils/AuthContext';
 
 const Header = () => {
   const {loggedIn, logout, userData } = useAuthContext();
+  const navigate = useNavigate();
+
   const handleLogout = (event) => {
     event.preventDefault();
-    logout('/');
+    logout();
+    navigate('/');
   };
   return (
     <header className="bg-primary text-light mb-4 py-3 flex-row align-center">

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useMutation } from '@apollo/client';
 import { LOGIN_USER } from '../utils/mutations';
 
@@ -9,6 +9,8 @@ const Login = (props) => {
   const [formState, setFormState] = useState({ email: '', password: '' });
   const [login, { error, data }] = useMutation(LOGIN_USER);
   const {login: loginWithContext} = useAuthContext();
+  const {state} = useLocation();
+  const navigate = useNavigate();
 
   // update state based on form input changes
   const handleChange = (event) => {
@@ -23,13 +25,17 @@ const Login = (props) => {
   // submit form
   const handleFormSubmit = async (event) => {
     event.preventDefault();
-    console.log(formState);
     try {
       const { data } = await login({
         variables: { ...formState },
       });
 
-      loginWithContext(data.login.token, '/');
+      loginWithContext(data.login.token);
+      if (state?.from) {
+        navigate(state.from);
+        return;
+      } 
+      navigate('/profile');
     } catch (e) {
       console.error(e);
     }

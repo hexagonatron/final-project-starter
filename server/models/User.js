@@ -19,6 +19,9 @@ const userSchema = new Schema({
     required: true,
     minlength: 5,
   },
+  roles: [{
+    type: String,
+  }]
 });
 
 userSchema.pre('save', async function (next) {

@@ -11,9 +11,13 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Home from './pages/Home';
 import Signup from './pages/Signup';
 import Login from './pages/Login';
+import Profile from './pages/Profile';
+import AdminPage from './pages/AdminPage';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import { AuthProvider } from './utils/AuthContext';
+import { AuthenticatedRoute, RequireAuth } from './utils/RequireAuth';
+import RequireRole, { ROLES } from './utils/RequireRole';
 
 // Construct our main GraphQL API endpoint
 const httpLink = createHttpLink({
@@ -41,23 +45,33 @@ const client = new ApolloClient({
 
 function App() {
   return (
-    <Router>
-      <AuthProvider>
+    <AuthProvider>
+      <Router>
         <ApolloProvider client={client}>
           <div className="flex-column justify-flex-start min-100-vh">
             <Header />
             <div className="container">
               <Routes>
-                <Route exact path="/" element={<Home />}/>
-                <Route exact path="/login" element={<Login />}/>
-                <Route exact path="/signup" element={<Signup />}/>
+                <Route exact path="/" element={<Home />} />
+                <Route exact path="/login" element={<Login />} />
+                <Route exact path="/signup" element={<Signup />} />
+                <Route exact path="/profile" element={
+                  <RequireAuth>
+                    <Profile />
+                  </RequireAuth>
+                } />
+                <Route exact path="/admin" element={
+                  <RequireRole requiredRole={ROLES.ADMIN}>
+                    <AdminPage />
+                  </RequireRole>
+                } />
               </Routes>
             </div>
             <Footer />
           </div>
         </ApolloProvider>
-      </AuthProvider>
-    </Router>
+      </Router>
+    </AuthProvider>
   );
 }
 
