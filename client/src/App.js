@@ -16,7 +16,7 @@ import AdminPage from './pages/AdminPage';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import { AuthProvider } from './utils/AuthContext';
-import { AuthenticatedRoute, RequireAuth } from './utils/RequireAuth';
+import { RequireAuth } from './utils/RequireAuth';
 import RequireRole, { ROLES } from './utils/RequireRole';
 
 // Construct our main GraphQL API endpoint
